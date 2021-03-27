@@ -1,26 +1,24 @@
-import pandas as pd
-import numpy as np
+# Importing dependencies
+import csv
+import os
 
-# The data we need to retrieve
+# Assigning a variable for the file to load and the path
+file_to_load = os.path.join("resources", "election_results.csv")
+# Assigning a variable to save the file to a path
+file_to_save = os.path.join("analysis", "election_analysis.txt")
 
-# 1. The total number of votes cast
+# Initalizing vote counter variable
+total_votes = 0
 
-election_results = pd.read_csv("resources/election_results.csv", )
+# Opening the election results and reading the file
+with open(file_to_load) as election_data:
+    file_reader = csv.reader(election_data)
 
-total_votes = election_results["Ballot ID"].count()
+    # Reading the header row
+    headers = next(file_reader)
+
+    # Printing each row in the CSV file
+    for row in file_reader:
+        total_votes += 1
+    
 print(total_votes)
-
-# 2. A complete list of candidates who received votes
-candidates = election_results["Candidate"].unique()
-print(candidates)
-
-# # 3. The percentage of votes each candidate won.
-# candidate_percent = election_results["Candidate"].groupby("Candidate") / total_votes
-# print(candidate_percent)
-
-# 4. The total number of votes each candidate won.
-votes_by_candidate = dict(election_results.groupby("Candidate").count()["Ballot ID"])
-print(votes_by_candidate)
-
-# 5. The winner of the election based on popular vote.
-print(sorted(votes_by_candidate.keys()))
